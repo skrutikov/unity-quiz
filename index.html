@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>Unity Code Optimization Quiz</title>
+	
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+	
+	<script>
+	
+	var x = 0;
+	
+	var dictionary = {};
+	
+	var inputs = [];
+	var labels = [];
+	
+	// https://www.w3resource.com/javascript-exercises/javascript-array-exercise-17.php
+	function shuffle(array)
+	{
+		var ctr = array.length, temp, index;
+		// While there are elements in the array
+		while (ctr > 0)
+		{
+			// Pick a random index
+			index = Math.floor(Math.random() * ctr);
+			// Decrease ctr by 1
+			ctr--;
+			// And swap the last element with it
+			temp = array[ctr];
+			array[ctr] = array[index];
+			array[index] = temp;
+		}
+		return array;
+	}
+	
+	function formatString(str)
+	{
+		return str
+			.replace(/\</gi, '&lt;')
+			.replace(/\>/gi, '&gt;')
+			.replace(/\n/gi, '<br/>')
+			.replace(/`([\s\S]*?)`/gi,
+				function (match, group1)
+				{
+					var result = group1.replace(/(\"[\s\S]*?\")/gi, '<font color="maroon">' + '$1' + '</font>');
+					result = result.replace(/\b(var|if|int|float|double|string|for|foreach|while|do|typeof|switch|bool|true|Vector3)\b/gi,
+						'<b><font color="navy">' + '$1' + '</font></b>')
+					return '<code>' + result + '</code>';
+				}
+			)
+			.replace(/\*\*([\s\S]*?)\*\*/gi, '<b>' + '$1' + '</b>')
+			.replace(/_([\s\S]*?)_/gi, '<i>' + '$1' + '</i>')
+			.replace(/\\\|\//gi, '<br>');
+	}
+
+	function fillQuizForm(file)
+	{
+		var questionContainers = document.getElementById("list-of-questions");
+	
+		var rawFile = new XMLHttpRequest();
+		rawFile.open("GET", file, false);
+		rawFile.onreadystatechange = function ()
+		{
+			if(rawFile.readyState === 4 && (rawFile.status === 200 || rawFile.status == 0))
+			{
+				var overallCheckboxesCount = 0;
+			
+				var questions = rawFile.responseText.split("\n----");
+				for (var i = 0; i < questions.length; i++)
+				{
+					var questionLines = questions[i].trim().split("\n");
+					var questionText = questionLines[0].trim();
+					if(questionText.length > 0)
+					{
+						var questionContainer = document.createElement("li");
+						var question = document.createElement("h3");
+						question.innerHTML = formatString(questionText);
+						questionContainer.appendChild(question);
+						
+						var answerTexts = questionLines.slice(1);
+						answerTexts = shuffle(answerTexts);
+						
+						for (var j = 0; j < answerTexts.length; j++)
+						{
+							var answerText = answerTexts[j].trim();
+							if(answerText.length > 0)
+							{
+								var div = document.createElement("div");
+								var leftDiv = document.createElement("div");
+								var rightDiv = document.createElement("div");
+								leftDiv.style=rightDiv.style="display: table-cell; vertical-align:top; padding: 8px;";
+								var input = document.createElement("input");
+								input.id = "id" + overallCheckboxesCount;
+								input.type = "checkbox";
+								input.value = answerText.startsWith("o ") ? "true" : "false";
+								leftDiv.appendChild(input);
+								inputs[overallCheckboxesCount] = input;
+								var label = document.createElement("label");
+								label.htmlFor = input.id;
+								label.innerHTML = formatString(answerText.startsWith("o ") ? answerText.substring(2) : answerText);
+								rightDiv.appendChild(label);
+								div.appendChild(leftDiv);
+								div.appendChild(rightDiv);
+								labels[overallCheckboxesCount] = label;
+								questionContainer.appendChild(div);
+								overallCheckboxesCount++;
+							}
+						}
+						
+						questionContainers.appendChild(questionContainer);
+					}
+				}
+			}
+		}
+		rawFile.send(null);
+	}
+	
+	window.onload = function()
+	{
+		fillQuizForm("quiz.txt");
+	}
+	
+	function checkResults()
+	{
+		var numberOfErrors = 0;
+		
+		for (var i = 0; i < inputs.length; i++)
+		{
+			if(inputs[i].checked === (inputs[i].value === "false"))
+			{
+				labels[i].style.backgroundColor  = "#ffaaaa";
+				numberOfErrors++;
+			}
+		}
+		
+		window.alert(numberOfErrors > 0 ? "You have " + numberOfErrors + " errors!" : "You have no errors! :)");
+	}
+	</script>
+</head>
+
+<body>
+
+	<div id="page-wrap">
+
+		<h1>Unity Code Optimization Quiz</h1>
+		<form id="quiz-form">
+            <ol id="list-of-questions">
+<!--
+				<li>
+					<h3>CSS Stands for...</h3>
+					<div>
+						<div style="display: table-cell; vertical-align: middle; padding: 8px;">
+							<input width="1%" type="checkbox" name="question-1-answers" id="question-1-answers-A" value="A" />
+						</div>
+						<div style="display: table-cell; vertical-align: middle; padding: 8px;">						
+							<label for="question-1-answers-A">ABCD<code>Styled&lt;T&gt;</code> Sections </label>
+						</div>
+					</div>
+					<div>
+						<div style="display: table-cell; vertical-align: middle; padding: 8px;">
+							<input width="1%" type="checkbox" name="question-1-answers" id="question-1-answers-A" value="A" />
+						</div>
+						<div style="display: table-cell; vertical-align: middle; padding: 8px;">						
+							<label for="question-1-answers-A">ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD ABCD</label>
+						</div>
+					</div>
+				</li>
+-->
+			</ol>
+
+			<p align="center"> <button class="button" type="button" alli onclick="checkResults()" padding="15px 32px" display="inline-block">Submit</button></p>
+			<p>&nbsp;</p>
+			<h3>References:</h3>
+			<p><a href="https://www.packtpub.com/game-development/unity-2017-game-optimization-second-edition">Unity 2017 Game Optimization</a></p>
+			<p><a href="http://bonusdisc.com/null-references-in-unity/">Bonus Disc: Checking for null references in Unity</a></p>
+			<p><a href="https://youtu.be/_wxitgdx-UI">Unite Europe 2017 - Squeezing Unity: Tips for raising performance</a></p>
+			<p>&nbsp;</p>
+		</form>
+	
+	</div>
+
+
+</body>
+
+</html>

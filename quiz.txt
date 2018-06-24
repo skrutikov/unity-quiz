@@ -1,0 +1,101 @@
+Which method is to prefer for better performance if `MyComponent` is a subclass of `UnityEngine.Component`?
+    o `GetComponent<MyComponent>()`
+      `GetComponent(typeof(MyComponent))`
+      `GetComponent("MyComponent")`
+----
+Which 2 methods are to prefer for better performance if `myComponent` is of type `UnityEngine.Component`?
+    o `if ((object)myComponent == null) { ... }`
+    o `if (Syste.Object.ReferenceEquals(myComponent, null)) { ... }`
+      `if (myComponent == null) { ... }`
+      `if (!myComponent) { ... }`
+----
+Access to which properties is **problematic** with respect to performance if `myGameObject` is of type `UnityEngine.GameObject`?
+    o `var tag = myGameObject.tag;`
+    o `var name = myGameObject.name;`
+	  `var transform = myGameObject.transform;`
+----
+Which method is to prefer for better performance if `myGameObject` is of type `UnityEngine.GameObject`?
+    o `if (myGameObject.CompareTag("MyTag")) { ... }`
+      `if (myGameObject.tag == "MyTag") { ... }`
+----
+Empty (not implemented) bodies of `Update()`-methods are not critical as Unity "optimize them away".
+    o False
+      True
+----
+Serialized data like audio files, Prefabs and Scriptable Objects sometimes slower in builds than in the Editor.
+    o True
+      False
+----
+Unity is **not** optimized for
+      iterating over nested GameObjects. 
+    o re-parenting nested GameObjects. 
+----
+Which is more optimal?
+    o `var newGameObject = GameObject.Instantiate(prefab, parentTransform);`
+       `var newGameObject = GameObject.Instantiate(prefab);\|/newGameObject.transform.SetParent(parentTransform);`
+----
+Which is better for performance if `myGameObject` is of type `UnityEngine.GameObject` and is deeply nested in the hierarchy of the Scene?
+      `myGameObject.transform.position = newPosition;`
+    o `myGameObject.transform.localPosition = newPosition;`
+----
+Which is more efficient if `myObjects` is an array of any type with more than one element?
+    o `var myObjectsLength = myObjects.Length;\|/for (var i = 0; i < myObjectsLength; i++) { ... }`
+      `for (var i = 0; i < myObjects.Length; i++) { ... }`
+----
+Which is more efficient if `myMesh` is of type `UnityEngine.Mesh`?
+    o `var vertices = myMesh.vertices;\|/foreach (var vertex in vertices) { ... }`
+      `foreach (var vertex in myMesh.vertices) { ... }`
+----
+Which is more efficient if `myGameObjects` is of type `UnityEngine.GameObject[]` with more than one element?
+    o `var newPosition = Vector3.zero;\|/foreach (var gameObject in myGameObjects)\|/{ gameObject.transform.localPosition = newPosition; }`
+      `foreach (var gameObject in myGameObjects)\|/{ gameObject.transform.localPosition = new Vector3(0,0,0); }`
+      `foreach (var gameObject in myGameObjects)\|/{ gameObject.transform.localPosition = Vector3.zero; }`
+----
+Which is more efficient if updating position of a `GameObject`?
+    o Save the new position in a variable and only apply it to `transfrom.position` in `FixedUpdate()`.
+      Set `transfrom.position` immediately.
+----
+Which is more efficient?
+    o Static classes
+      Singletons
+----
+Which is more efficient?
+    o Executing 1 `Update()`-method, which calls 1000 regular functions.
+      Executing 1000 separate `Update()`-methods.
+----
+Which is more efficient with respect to memory allocations if `myMesh` is of type `UnityEngine.Mesh` and this line is executed frequently?
+    o `myMesh.GetVertices(vertices);` (where `vertices` is instance variable of type `List<Vector3>`)
+      `vertices = myMesh.vertices;` (where `vertices` is instance variable of type `Vector3[]`)
+----
+Which is more efficient with respect to memory allocations if `myGameObject` is of type `UnityEngine.GameObject` and this line is executed frequently?
+    o `myGameObject.GetComponentsInChildren<MonoBehaviour>(children);` (where `children` is instance variable of type `List<MonoBehaviour>`)
+      `children = myGameObject.GetComponentsInChildren<MonoBehaviour>();` (children `children` is instance variable of type `MonoBehaviour[]`)
+----
+Which is more efficient if `myMaterial` is of type `UnityEngine.Material`, `myColor` is of type `Color` and `MainColorID` is the globally saved integer ID of the shader's main color? Frequent usage is assumed here.
+    o `myMaterial.SetColor(MainColorID, myColor);`
+      `myMaterial.SetColor("_MainColor", myColor);`
+      `myMaterial.color = myColor;`
+----
+Which is more efficient for accessing the main camera? Frequent usage is assumed here.
+    o Access to the main camera over a some previously saved global variable
+      Direct access to `Camera.main`
+----
+Which is most appropriate for iterating over items.
+    o Lists
+      Disctionaries
+      Hashsets
+----
+Which is most appropriate for adding/removing of items.
+      Lists
+    o Disctionaries
+    o Hashsets
+----
+Which is most appropriate for searching of items.
+      Lists
+    o Disctionaries
+      Hashsets
+----
+Which is more efficient?
+    o Using Dictionary with GameObject-IDs as keys
+      Using Dictionaries with GameObjects as keys
+----
