@@ -11,7 +11,7 @@ Which is to prefer for better performance if `myComponent` is of type `UnityEngi
 Access to which properties is **problematic** with respect to performance if `myGameObject` is of type `UnityEngine.GameObject`?
     o `var tag = myGameObject.tag;`
     o `var name = myGameObject.name;`
-	  `var transform = myGameObject.transform;`
+      `var transform = myGameObject.transform;`
 ----
 Which method is to prefer for better performance if `myGameObject` is of type `UnityEngine.GameObject`?
     o `if (myGameObject.CompareTag("MyTag")) { ... }`
@@ -31,15 +31,15 @@ Unity is **not** optimized for
 ----
 Which is more optimal?
     o `var newGameObject = GameObject.Instantiate(prefab, parentTransform);`
-       `var newGameObject = GameObject.Instantiate(prefab);\|/newGameObject.transform.SetParent(parentTransform);`
+      `var newGameObject = GameObject.Instantiate(prefab);\|/newGameObject.transform.SetParent(parentTransform);`
 ----
 Which is better for performance if `myGameObject` is of type `UnityEngine.GameObject` and is deeply nested in the hierarchy of the Scene?
       `myGameObject.transform.position = newPosition;`
     o `myGameObject.transform.localPosition = newPosition;`
 ----
-Which is more efficient if `myObjects` is an array of any type with more than one element?
-    o `var myObjectsLength = myObjects.Length;\|/for (var i = 0; i < myObjectsLength; i++) { ... }`
-      `for (var i = 0; i < myObjects.Length; i++) { ... }`
+Which is more efficient if `myObjects` is an instance variable of type `List<...>` with more than one element?
+    o `var myObjectsCount = myObjects.Count;\|/for (var i = 0; i < myObjectsCount; i++) { ... }`
+      `for (var i = 0; i < myObjects.Count; i++) { ... }`
 ----
 Which is more efficient if `myMesh` is of type `UnityEngine.Mesh`?
     o `var vertices = myMesh.vertices;\|/foreach (var vertex in vertices) { ... }`
