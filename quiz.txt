@@ -3,8 +3,7 @@ Which method is to prefer for better performance if `MyComponent` is a subclass 
       `GetComponent(typeof(MyComponent))`
       `GetComponent("MyComponent")`
 ----
-Which 2 methods are to prefer for better performance if `myComponent` is of type `UnityEngine.Component`?
-    o `if ((object)myComponent == null) { ... }`
+Which is to prefer for better performance if `myComponent` is of type `UnityEngine.Component`?
     o `if (Syste.Object.ReferenceEquals(myComponent, null)) { ... }`
       `if (myComponent == null) { ... }`
       `if (!myComponent) { ... }`
